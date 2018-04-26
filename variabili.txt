@@ -1,0 +1,8 @@
+IRIS_USER_ID='postgres'
+IRIS_USER_PWD='p0stgr3S'
+IRIS_DB_NAME='iris_base'
+IRIS_DB_HOST='10.10.0.19'
+MYSQL_USER_ID='guardone'
+MYSQL_USER_PWD='guardone'
+MYSQL_DB_NAME='METEO'
+MYSQL_DB_HOST='10.10.0.6'
