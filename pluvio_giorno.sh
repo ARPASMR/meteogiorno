@@ -38,35 +38,35 @@ putS3() {
 }
 
 #
+elapsed_time=$(date +%H)
 while [ 1 ]
 do
 # procedi sono se è passato numsec dall'ultimo invio
-if [ $SECONDS -ge $numsec ]
+if [ $elapsed_time == 6 || $SECONDS -ge $numsec ]
 then 
-python $PLUVIO_GIORNO_PY 
+   python $PLUVIO_GIORNO_PY 
 
-# verifico se è andato a buon fine
-STATO=$?
-echo "STATO USCITA DA "$ $PLUVIO_GIORNO_PY" ====> "$STATO
+   # verifico se è andato a buon fine
+   STATO=$?
+   echo "STATO USCITA DA "$ $PLUVIO_GIORNO_PY" ====> "$STATO
 
-if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
-then
-  exit 1
-else # caricamento su MINIO 
-putS3 . $FILE_PNG meteogiorno/ rete-monitoraggio 
+   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
+   then
+       exit 1
+   else # caricamento su MINIO 
+       putS3 . $FILE_PNG meteogiorno/ rete-monitoraggio 
 
-# controllo sul caricamento su MINIO 
-if [ $? -ne 0 ]
-then
-  echo "problema caricamento su MINIO"
-  exit 1
-fi
-fi
+       # controllo sul caricamento su MINIO 
+       if [ $? -ne 0 ]
+       then
+         echo "problema caricamento su MINIO"
+         exit 1
+       fi
+   fi
 
-rm -f $FILE_PNG
-
-SECONDS=0
-
+   rm -f $FILE_PNG
+   SECONDS=0
+   sleep $numsec
 fi
 done
 exit 0
