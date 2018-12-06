@@ -42,7 +42,7 @@ elapsed_time=$(date +%H)
 while [ 1 ]
 do
 # procedi sono se è passato numsec dall'ultimo invio
-if [ $elapsed_time -eq 6 -o $SECONDS -ge $numsec ]
+if [[ ($elapsed_time -eq 6) || ($SECONDS -ge $numsec) ]]
 then 
    python $PLUVIO_GIORNO_PY 
 
