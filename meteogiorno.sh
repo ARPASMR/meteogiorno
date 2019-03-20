@@ -1,19 +1,16 @@
 #!/bin/bash
 #=============================================================================
-# Lo script è all'interno di un container
+# Lo script è all'interno di un container e produce i contenuti per il bollettino meteogiorno 
 #
-# ogni giorno esegue uno script python che interroga il DBmeteo e postgresIRIS,  
-# produce la mappa dei pluviometri per il bollettino Meteogiorno e lo carica su Minio 
+# ogni giorno:
+# -esegue uno script python che interroga il DBmeteo e postgresIRIS e produce la mappa dei pluviometri,  
+# -esegue uno script shell che interroga il DBmeteo e i file climatici e produce la tabella clima
+# -carica gli output su Minio 
 #
 # 2018/11/22 MR
+# 2019/03/20 MR GC UA aggiunta produzione tabella clima
 #=============================================================================
 numsec=86400   # 60 * 60 * 24 -> 1 gg
-
-
-PLUVIO_GIORNO_PY='pluvio_giorno.py'
-ieri=$(date --date="yesterday" +"%Y-%m-%d")
-FILE_PNG='pluvio_giorno_'$ieri'.png'
-
 
 SECONDS=$numsec
 
@@ -42,9 +39,16 @@ elapsed_time=$(date +%H)
 while [ 1 ]
 do
 # procedi sono se è passato numsec dall'ultimo invio
-if [[ ($elapsed_time -eq 6) || ($SECONDS -ge $numsec) ]]
+if [[ ($elapsed_time -eq 06) || ($SECONDS -ge $numsec) ]]
 then 
-   python $PLUVIO_GIORNO_PY 
+
+################### produzione mappe pluvio
+
+PLUVIO_GIORNO_PY='pluvio_giorno.py'
+ieri=$(date --date="yesterday" +"%Y-%m-%d")
+FILE_PNG='pluvio_giorno_'$ieri'.png'
+
+    python $PLUVIO_GIORNO_PY 
 
    # verifico se è andato a buon fine
    STATO=$?
@@ -63,8 +67,31 @@ then
          exit 1
        fi
    fi
-
    rm -f $FILE_PNG
+
+################### produzione tabella clima
+   FILE_TABELLA='Tabella_Clima.txt'
+   ./Tclima_giorno.sh
+ 
+ # verifico se è andato a buon fine
+   STATO=$?
+   echo "STATO USCITA DA script tabella clima ====> "$STATO
+
+   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
+   then
+       exit 1
+   else # caricamento su MINIO 
+       putS3 . $FILE_TABELLA meteogiorno/ rete-monitoraggio 
+
+       # controllo sul caricamento su MINIO 
+       if [ $? -ne 0 ]
+       then
+         echo "problema caricamento su MINIO"
+         exit 1
+       fi
+   fi
+
+   rm -f $FILE_TABELLA
    SECONDS=0
    sleep $numsec
 fi
