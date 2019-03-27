@@ -40,7 +40,7 @@ elapsed_time=$(date +%H)
 while [ 1 ]
 do
 # procedi sono se è passato numsec dall'ultimo invio
-if [[ ($elapsed_time -eq 14) || ($SECONDS -ge $numsec) ]]
+if [[ ($elapsed_time -eq 15) || ($SECONDS -ge $numsec) ]]
 then 
 
 
