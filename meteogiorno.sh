@@ -10,7 +10,8 @@
 # 2018/11/22 MR
 # 2019/03/20 MR GC UA aggiunta produzione tabella clima
 #=============================================================================
-numsec=86400   # 60 * 60 * 24 -> 1 gg
+#numsec=86400   # 60 * 60 * 24 -> 1 gg
+numsec=600   # 60 * 60 * 24 -> 1 gg
 
 SECONDS=$numsec
 
@@ -39,14 +40,15 @@ elapsed_time=$(date +%H)
 while [ 1 ]
 do
 # procedi sono se è passato numsec dall'ultimo invio
-if [[ ($elapsed_time -eq 11) || ($SECONDS -ge $numsec) ]]
+if [[ ($elapsed_time -eq 14) || ($SECONDS -ge $numsec) ]]
 then 
 
+
+ ieri=$(date --date="yesterday" +"%Y-%m-%d")
 ################### produzione mappe pluvio
 
-PLUVIO_GIORNO_PY='pluvio_giorno.py'
-ieri=$(date --date="yesterday" +"%Y-%m-%d")
-FILE_PNG='pluvio_giorno_'$ieri'.png'
+ PLUVIO_GIORNO_PY='pluvio_giorno.py'
+ FILE_PNG='pluvio_giorno_'$ieri'.png'
 
     python $PLUVIO_GIORNO_PY 
 
@@ -70,12 +72,14 @@ FILE_PNG='pluvio_giorno_'$ieri'.png'
    rm -f $FILE_PNG
 
 ################### produzione tabella clima
-   FILE_TABELLA='Tabella_Clima.txt'
-   ./Tclima_giorno.sh
+ CLIMA_GIORNO_PY='Tclima_giorno.py'
+ FILE_TABELLA='Tabella_Clima_'$ieri'.txt'
+    
+      python $CLIMA_GIORNO_PY
  
  # verifico se è andato a buon fine
    STATO=$?
-   echo "STATO USCITA DA script tabella clima ====> "$STATO
+   echo "STATO USCITA DA "$ $CLIMA_GIORNO_PY" ====> "$STATO
 
    if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
    then
