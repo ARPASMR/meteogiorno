@@ -131,8 +131,8 @@ def pluvio_graf():
     plt.title("cumulata massima=" + str(max(df['Cumulata'])) +"mm") #aggiungo titolo
     
     # aggiungo colorbar con le stesse dimensioni del grafico
-    divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="5%", pad=0.05)
+    #divider = make_axes_locatable(ax)
+    #cax = divider.append_axes("right", size="5%", pad=0.05)
     #cbar= plt.colorbar(graf, cax=cax, label="mm", ticks=n_bins)
         
     province.plot(ax=ax,facecolor='none',edgecolor='gray', alpha=1) #sovrascrivo province
