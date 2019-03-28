@@ -98,8 +98,26 @@ then
    fi
 
    rm -f $FILE_TABELLA
-   SECONDS=0
-   sleep $numsec
+   
+  ################# pulizia cartella di minio
+  periodo="30 days"
+  s3cmd --config=config_minio.txt ls s3://rete-monitoraggio/meteogiorno/ | while read -r line;
+  do
+    createDate=`echo $line|awk {'print $1'}`
+    createDate=`date -d"$createDate" +%s`
+    olderThan=`date -d"-$periodo" +%s`
+    if [[ $createDate -lt $olderThan ]]
+      then
+        fileName=`echo $line|awk {'print $4'}`
+        if [[ $fileName != "" ]]
+          then
+          s3cmd del "$fileName"
+        fi
+    fi
+  done;
+  
+  SECONDS=0
+  sleep $numsec
 fi
 done
 exit 0
