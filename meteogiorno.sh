@@ -4,7 +4,7 @@
 #
 # ogni giorno:
 # -esegue uno script python che interroga il DBmeteo e postgresIRIS e produce la mappa dei pluviometri,  
-# -esegue uno script shell che interroga il DBmeteo e i file climatici e produce la tabella clima
+# -esegue uno script python che interroga il DBmeteo e i file climatici e produce la tabella clima
 # -carica gli output su Minio 
 #
 # 2018/11/22 MR
@@ -42,7 +42,7 @@ elapsed_time=$(date +%H)
 while [ 1 ]
 do
 # procedi sono se è passato numsec dall'ultimo invio
-if [[ ($elapsed_time -eq 16) || ($SECONDS -ge $numsec) ]]
+if [[ ($elapsed_time -eq 06) || ($SECONDS -ge $numsec) ]]
 then 
 
 
