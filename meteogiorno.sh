@@ -10,8 +10,7 @@
 # 2018/11/22 MR
 # 2019/03/20 MR GC UA aggiunta produzione tabella clima
 #=============================================================================
-#numsec=86400   # 60 * 60 * 24 -> 1 gg
-numsec=600   # 10 min
+numsec=86400   # 60 * 60 * 24 -> 1 gg
 
 S3CMD='s3cmd --config=config_minio.txt'
 
