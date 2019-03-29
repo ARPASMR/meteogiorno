@@ -128,12 +128,12 @@ def pluvio_graf():
     #graf=plt.scatter(gdf['UTM_X'], gdf['UTM_Y'],marker='.',color='gray')
     graf = plt.scatter(gdf['UTM_X'], gdf['UTM_Y'],c="black",s=100)
     graf = plt.scatter(gdf['UTM_X'], gdf['UTM_Y'],c=df['Cumulata'],s=100,cmap=cmap, norm=norm, vmin=0)
-    plt.title("cumulata massima=" + str(max(df['Cumulata'])) +"mm") #aggiungo titolo
+    #plt.title("cumulata massima=" + str(max(df['Cumulata'])) +"mm") #aggiungo titolo
     
     # aggiungo colorbar con le stesse dimensioni del grafico
-    #divider = make_axes_locatable(ax)
-    #cax = divider.append_axes("right", size="5%", pad=0.05)
-    #cbar= plt.colorbar(graf, cax=cax, label="mm", ticks=n_bins)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    cbar= plt.colorbar(graf, cax=cax, label="mm", ticks=n_bins)
         
     province.plot(ax=ax,facecolor='none',edgecolor='gray', alpha=1) #sovrascrivo province
     laghi.plot(ax=ax,facecolor='skyblue',edgecolor='none', alpha=1) #sovrascrivo laghi
