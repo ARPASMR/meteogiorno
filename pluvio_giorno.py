@@ -89,8 +89,7 @@ def pluvio_graf():
     query="select  A_Sensori.IDsensore,  X(A_Sensori.CoordUTM ) as UTM_X, Y(A_Sensori.CoordUTM ) as UTM_Y,  date(Data_e_ora) as Data, sum(Misura) as Cumulata   from  A_Sensori ,  A_Stazioni ,  M_Pluviometri   where A_Sensori.IDstazione =A_Stazioni.IDstazione  and A_Sensori.IDsensore=M_Pluviometri.IDsensore and M_Pluviometri.Data_e_ora>='" + ieri + "' and M_Pluviometri.Data_e_ora<='"+ oggi+"' and (Flag_manuale='G' or Flag_manuale_DBunico in (-100,-101,-102) or (Flag_manuale='M' and Flag_automatica='P')) and A_Sensori.IDsensore not in (SELECT IDsensore from A_ListaNera where DataFine IS NULL) and A_Sensori.IDsensore in (select IDsensore from A_Sensori2Destinazione where Destinazione=12 and DataFine is null)  group by A_Sensori.IDsensore"
     result=pd.read_sql(query, conn)
     df = pd.DataFrame({"IDsensore": result['IDsensore'], "UTM_X": result['UTM_X'],"UTM_Y": result['UTM_Y'],"Cumulata": result['Cumulata']})
-    df = df.sort_values(by=['Cumnulata'])
-    
+        
     # conversione a campi geometrici
     geometry = [Point(xy) for xy in zip(df['UTM_X'], df['UTM_Y'])]
     gdf = GeoDataFrame(df, crs={'init': 'epsg:32632'}, geometry=geometry)
