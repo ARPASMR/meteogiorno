@@ -10,7 +10,8 @@
 # 2018/11/22 MR
 # 2019/03/20 MR GC UA aggiunta produzione tabella clima
 #=============================================================================
-numsec=86400   # 60 * 60 * 24 -> 1 gg
+#numsec=86400   # 60 * 60 * 24 -> 1 gg
+numsec=3600
 
 S3CMD='s3cmd --config=config_minio.txt'
 
@@ -41,7 +42,7 @@ elapsed_time=$(date +%H)
 while [ 1 ]
 do
 # procedi sono se è passato numsec dall'ultimo invio
-if [[ ($elapsed_time -eq 06) || ($SECONDS -ge $numsec) ]]
+if [[ ($elapsed_time -eq 07) || ($SECONDS -ge $numsec) ]]
 then 
 
 
