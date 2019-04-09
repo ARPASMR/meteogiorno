@@ -77,7 +77,7 @@ then
 
 ################### produzione tabella clima
  CLIMA_GIORNO_PY='Tclima_giorno.py'
- FILE_TABELLA='Tabella_Clima_'$ieri'.txt'
+ FILE_TABELLA='Tabella_Clima_'$ieri'.json'
     
       python $CLIMA_GIORNO_PY
  
