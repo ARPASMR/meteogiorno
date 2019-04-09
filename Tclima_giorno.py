@@ -27,7 +27,7 @@ def tabella():
      DATAF=str(dt.date.today())
      DATACLIMA="YYYY-" + DATAI[5:] 
      #
-     file_out = open('Tabella_Clima_' + DATAI + '.txt','w')
+     file_out = open('Tabella_Clima_' + DATAI + '.json','w')
 
      file_out.write('{"Temperature": { \n')
      siti = [["Milano", 5897], ["Pavia", 8157], ["Mantova", 5121],["Brescia", 2414],["Sondrio", 2096]]
