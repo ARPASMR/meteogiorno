@@ -5,10 +5,12 @@
 # ogni giorno:
 # -esegue uno script python che interroga il DBmeteo e postgresIRIS e produce la mappa dei pluviometri,  
 # -esegue uno script python che interroga il DBmeteo e i file climatici e produce la tabella clima
+# -esegue uno script pyton che recupera i wms e genera la immagine sinottica
 # -carica gli output su Minio 
 #
 # 2018/11/22 MR
 # 2019/03/20 MR GC UA aggiunta produzione tabella clima
+# 2019/04/09 aggiunta produzione immagine sinottica
 #=============================================================================
 #numsec=86400   # 60 * 60 * 24 -> 1 gg
 numsec=3600
@@ -98,6 +100,35 @@ then
    fi
 
    rm -f $FILE_TABELLA
+
+
+################### produzione immagine sinottica
+ SINOTTICA_PY='sinottica.py'
+ IMMAGINE_SINOTTICA='sinottica'$ieri'.png'
+    
+      python $SINOTTICA_PY
+ 
+ # verifico se è andato a buon fine
+   STATO=$?
+   echo "STATO USCITA DA "$ $SINOTTICA_PY" ====> "$STATO
+
+   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
+   then
+       exit 1
+   else # caricamento su MINIO 
+       putS3 . $IMMAGINE_SINOTTICA meteogiorno/ rete-monitoraggio 
+
+       # controllo sul caricamento su MINIO 
+       if [ $? -ne 0 ]
+       then
+         echo "problema caricamento su MINIO"
+         exit 1
+       fi
+   fi
+
+   rm -f $IMMAGINE_SINOTTICA
+   
+   
    
   ################# pulizia cartella di minio
   periodo="20 days"
