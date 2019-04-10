@@ -1,5 +1,7 @@
 from owslib.wms import WebMapService
 import cartopy.crs as ccrs
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import datetime as dt
@@ -68,38 +70,7 @@ data_cl = plt.imread(image_cl)
 # impostazione del grafico
 fig = plt.figure(figsize=(20,20*800/1024))
 
-#LambertConformal 
-proj = ccrs.LambertConformal(central_longitude=0, central_latitude=0.0, false_easting=0.0, false_northing=0.0, secant_latitudes=None, standard_parallels=None, globe=None, cutoff=-30)
-proj_string = Proj("+proj=laea +lat_0=45.5 +lon_0=-114.125 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
-
-#devo riproiettare i punti limite dell'estensione e scegliere i limiti più "interni"
-LB=(estensione[0],estensione[1])
-LT=(estensione[0],estensione[3])
-RB=(estensione[2],estensione[1])
-RT=(estensione[2],estensione[3])
-x_lim=(LB[0],LT[0],RB[0],RT[0]) #coordinate x degli angoli della vista
-y_lim=(LB[1],LT[1],RB[1],RT[1]) #coordinate y degli angoli della vista
-
-#proiezione di partenza
-p1 = Proj(proj='latlong',datum='WGS84')
-
-#Proiezione di destinazione
-p2 = proj_string
-
-#converto le coordinate degli estremi
-x_lim_p2 = np.zeros(len(x_lim))
-y_lim_p2 = np.zeros(len(y_lim))
-for i in range(len(x_lim)):
-    x_lim_p2[i], y_lim_p2[i] = transform(p1, p2, x_lim[i], y_lim[i])
-
-#scelgo i limiti più "esterni"
-MinEst = min(x_lim_p2[0],x_lim_p2[1])
-MaxEst = max(x_lim_p2[2],x_lim_p2[3])
-MinNord = min(y_lim_p2[0],y_lim_p2[2])
-MaxNord = max(y_lim_p2[1],y_lim_p2[3])
-
-#estensione vista con coordinate convertite nel nuovo SDR
-estensione = (MinEst, MinNord, MaxEst, MaxNord) #Left, bottom, right, top
+proj=ccrs.PlateCarree()
 
 ax = plt.axes(projection=proj)
 
