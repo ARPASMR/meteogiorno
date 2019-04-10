@@ -12,6 +12,10 @@
 # 2019/03/20 MR GC UA aggiunta produzione tabella clima
 # 2019/04/09 aggiunta produzione immagine sinottica
 #=============================================================================
+
+export https_proxy="http://proxy2:8080"
+export http_proxy="http://proxy2:8080"
+
 #numsec=86400   # 60 * 60 * 24 -> 1 gg
 numsec=3600
 
