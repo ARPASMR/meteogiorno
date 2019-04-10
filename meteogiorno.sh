@@ -107,30 +107,30 @@ then
 
 
 ################### produzione immagine sinottica
-# SINOTTICA_PY='sinottica.py'
-# IMMAGINE_SINOTTICA='sinottica'$ieri'.png'
-#    
-#      python $SINOTTICA_PY
-# 
-# # verifico se è andato a buon fine
-#   STATO=$?
-#   echo "STATO USCITA DA "$ $SINOTTICA_PY" ====> "$STATO
-#
-#   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
-#   then
-#       exit 1
-#   else # caricamento su MINIO 
-#       putS3 . $IMMAGINE_SINOTTICA meteogiorno/ rete-monitoraggio 
-#
-#       # controllo sul caricamento su MINIO 
-#       if [ $? -ne 0 ]
-#       then
-#         echo "problema caricamento su MINIO"
-#         exit 1
-#       fi
-#   fi
-#
-#   rm -f $IMMAGINE_SINOTTICA
+ SINOTTICA_PY='sinottica.py'
+ IMMAGINE_SINOTTICA='sinottica'$ieri'.png'
+    
+      python $SINOTTICA_PY
+ 
+ # verifico se è andato a buon fine
+   STATO=$?
+   echo "STATO USCITA DA "$ $SINOTTICA_PY" ====> "$STATO
+
+   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
+   then
+       exit 1
+   else # caricamento su MINIO 
+       putS3 . $IMMAGINE_SINOTTICA meteogiorno/ rete-monitoraggio 
+
+       # controllo sul caricamento su MINIO 
+       if [ $? -ne 0 ]
+       then
+         echo "problema caricamento su MINIO"
+         exit 1
+       fi
+   fi
+
+   rm -f $IMMAGINE_SINOTTICA
    
    
    
