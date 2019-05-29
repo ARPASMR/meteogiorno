@@ -80,31 +80,31 @@ then
    rm -f $FILE_PNG
 
 ################### produzione tabella clima
-# CLIMA_GIORNO_PY='Tclima_giorno.py'
-# FILE_TABELLA='Tabella_Clima_'$ieri'.json'
-#    
-#      python $CLIMA_GIORNO_PY
-# 
-# # verifico se è andato a buon fine
-#   STATO=$?
-#   echo "STATO USCITA DA "$ $CLIMA_GIORNO_PY" ====> "$STATO
-#
-#   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
-#   then
-#       exit 1
-#   else # caricamento su MINIO 
-#       putS3 . $FILE_TABELLA meteogiorno/ rete-monitoraggio 
-#
-#
-#       # controllo sul caricamento su MINIO 
-#       if [ $? -ne 0 ]
-#       then
-#         echo "problema caricamento su MINIO"
-#         exit 1
-#       fi
-#   fi
-#
-#   rm -f $FILE_TABELLA
+ CLIMA_GIORNO_PY='Tclima_giorno.py'
+ FILE_TABELLA='Tabella_Clima_'$ieri'.json'
+    
+      python $CLIMA_GIORNO_PY
+ 
+ # verifico se è andato a buon fine
+   STATO=$?
+   echo "STATO USCITA DA "$ $CLIMA_GIORNO_PY" ====> "$STATO
+
+   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci 
+   then
+       exit 1
+   else # caricamento su MINIO 
+       putS3 . $FILE_TABELLA meteogiorno/ rete-monitoraggio 
+
+
+       # controllo sul caricamento su MINIO 
+       if [ $? -ne 0 ]
+       then
+         echo "problema caricamento su MINIO"
+         exit 1
+       fi
+   fi
+
+   rm -f $FILE_TABELLA
 
 
 ################### produzione immagine sinottica
