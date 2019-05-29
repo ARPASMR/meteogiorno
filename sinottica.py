@@ -14,7 +14,7 @@ data_e_ora=str((dt.date.today())-dt.timedelta(days=1))+'T12:00:00.000Z'
 proiezione='EPSG:4326' #proiezione di partenza (WGS 84 lat lon)
 formato='image/png'
 estensione = (-40, 25, 30, 70) # Left, bottom, right, top
-size_map=(1024 , 800)
+size_map=(1000 , 600)
 
 ############   IMPORT MSG (immagine satellite VIS6)
 wms_msg = WebMapService('http://eumetview.eumetsat.int/geoserver/wms')
@@ -68,7 +68,7 @@ image_cl = io.BytesIO(img_cl.read())
 data_cl = plt.imread(image_cl)
 
 # impostazione del grafico
-fig = plt.figure(figsize=(20,20*800/1024))
+fig = plt.figure(figsize=(20,20*600/1000))
 
 proj=ccrs.PlateCarree()
 
