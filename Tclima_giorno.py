@@ -38,12 +38,12 @@ def tabella():
         # recupero dati da clima
         # massima
         df=pd.read_csv("Massima_81-10_" + siti[i][0] + ".txt", sep=',', names = ['data','misura',''], index_col = None, header=None)
-        massima=df.misura[df['data']==DATACLIMA].to_string(index=False)
-        file_out.write('    "Tmax_clima":' + massima + ',\n')
+        massima=round(df.misura[df['data']==DATACLIMA],1)
+        file_out.write('    "Tmax_clima":' + massima.to_string(index=False) + ',\n')
         # mimima
         df=pd.read_csv("Minima_81-10_" + siti[i][0] + ".txt", sep=',', names = ['data','misura',''], index_col = None, header=None)
-        minima=df.misura[df['data']==DATACLIMA].to_string(index=False)
-        file_out.write('    "Tmin_clima":' + minima + ',\n')
+        minima=round(df.misura[df['data']==DATACLIMA],1)
+        file_out.write('    "Tmin_clima":' + minima.to_string(index=False) + ',\n')
 
         #recupero da DBmeteo i dati di temperatura di ieri
         engine = create_engine('mysql+mysqldb://'+MYSQL_USER_ID+':'+MYSQL_USER_PWD+'@'+MYSQL_DB_HOST+'/'+MYSQL_DB_NAME)  
