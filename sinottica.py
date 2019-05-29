@@ -78,4 +78,4 @@ ax.imshow ( data_msg  , origin="upper", extent=estensione, transform=proj )
 ax.imshow ( data_ecmwf, origin="upper", extent=estensione, transform=proj )
 ax.imshow ( data_cl, origin="upper", extent=estensione, transform=proj )
 
-plt.savefig('sinottica' + str((dt.date.today())-dt.timedelta(days=1)) + '.png', bbox_inches='tight')
+plt.savefig('sinottica' + str((dt.date.today())-dt.timedelta(days=1)) + '.png', pad_inches = 0)
