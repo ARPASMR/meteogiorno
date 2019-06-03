@@ -68,7 +68,7 @@ image_cl = io.BytesIO(img_cl.read())
 data_cl = plt.imread(image_cl)
 
 # impostazione del grafico
-fig = plt.figure(figsize=(10,10*600/1000))
+fig = plt.figure(figsize=(1000,600))
 
 proj=ccrs.PlateCarree()
 
