@@ -138,7 +138,7 @@ def pluvio_graf():
     province.plot(ax=ax,facecolor='none',edgecolor='gray', alpha=1) #sovrascrivo province
     laghi.plot(ax=ax,facecolor='skyblue',edgecolor='none', alpha=1) #sovrascrivo laghi
     
-    plt.savefig("pluvio_giorno_" + ieri + ".png", format='png') #eseguo e salvo il grafico
+    plt.savefig("pluvio_giorno_" + ieri + ".png", format='png', bbox_inches='tight') #eseguo e salvo il grafico
 
 pluvio_graf()
 
