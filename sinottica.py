@@ -17,9 +17,10 @@ estensione = (-40, 25, 30, 70) # Left, bottom, right, top
 size_map=(1000 , 600)
 
 ############   IMPORT MSG (immagine satellite VIS6)
-wms_msg = WebMapService('http://eumetview.eumetsat.int/geoserver/wms')
-name_msg='meteosat:msg_vis006'
+
 try:
+  wms_msg = WebMapService('http://eumetview.eumetsat.int/geoserver/wms')
+  name_msg='meteosat:msg_vis006'
   img_msg = wms_msg.getmap(   layers=[name_msg],
                             styles=['raster'],
                             bbox=estensione,
@@ -33,9 +34,9 @@ except:
   print("Import dell'immagine satellite visibile non riuscito")
 
 ############   IMPORT MSG (coastlines)
-layer = wms_msg.contents[name_msg] #per lista dei WMS disponibili
-name_cl='overlay:ne_10m_coastline'
 try:
+  layer = wms_msg.contents[name_msg] #per lista dei WMS disponibili
+  name_cl='overlay:ne_10m_coastline'
   img_cl = wms_msg.getmap(   layers=[name_cl],
                             bbox=estensione,
                             size=size_map,
@@ -48,9 +49,10 @@ except:
   print("Import dell'immagine coastlines non riuscito")
 
 ###########  IMPORT ECMWF (isolinee del geopotenziole a 500hPa)
-wms_ecmwf = WebMapService('https://apps.ecmwf.int/wms/?token=MetOceanIE&')
-name_ecmwf='z500_public'
-try:  
+
+try:
+  wms_ecmwf = WebMapService('https://apps.ecmwf.int/wms/?token=MetOceanIE&')
+  name_ecmwf='z500_public'
   img_ecmwf = wms_ecmwf.getmap(  layers=[name_ecmwf],
                                styles=['ct_red_i5_t2'],
                                bbox=estensione,
