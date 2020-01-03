@@ -66,24 +66,27 @@ except:
   print("Import dell'immagine ECMWF non riuscito")
 
 #
-image_msg = io.BytesIO(img_msg.read())
-data_msg = plt.imread(image_msg)
+try:
+  image_msg = io.BytesIO(img_msg.read())
+  data_msg = plt.imread(image_msg)
 #
-image_ecmwf = io.BytesIO(img_ecmwf.read())
-data_ecmwf = plt.imread(image_ecmwf)
+  image_ecmwf = io.BytesIO(img_ecmwf.read())
+  data_ecmwf = plt.imread(image_ecmwf)
 #
-image_cl = io.BytesIO(img_cl.read())
-data_cl = plt.imread(image_cl)
+  image_cl = io.BytesIO(img_cl.read())
+  data_cl = plt.imread(image_cl)
 
 # impostazione del grafico
-fig = plt.figure(figsize=(20,20*600/1000))
+  fig = plt.figure(figsize=(20,20*600/1000))
 
-proj=ccrs.PlateCarree()
+  proj=ccrs.PlateCarree()
 
-ax = plt.axes(projection=proj)
+  ax = plt.axes(projection=proj)
 
-ax.imshow ( data_msg  , origin="upper", extent=estensione, transform=proj )
-ax.imshow ( data_ecmwf, origin="upper", extent=estensione, transform=proj )
-ax.imshow ( data_cl, origin="upper", extent=estensione, transform=proj )
+  ax.imshow ( data_msg  , origin="upper", extent=estensione, transform=proj )
+  ax.imshow ( data_ecmwf, origin="upper", extent=estensione, transform=proj )
+  ax.imshow ( data_cl, origin="upper", extent=estensione, transform=proj )
 
-plt.savefig('sinottica' + str((dt.date.today())-dt.timedelta(days=1)) + '.png', bbox_inches='tight')
+  plt.savefig('sinottica' + str((dt.date.today())-dt.timedelta(days=1)) + '.png', bbox_inches='tight')
+except:
+  print("Impossibile creare l'immagine da satellite")
