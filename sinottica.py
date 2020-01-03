@@ -19,8 +19,8 @@ size_map=(1000 , 600)
 ############   IMPORT MSG (immagine satellite VIS6)
 wms_msg = WebMapService('http://eumetview.eumetsat.int/geoserver/wms')
 name_msg='meteosat:msg_vis006'
-
-img_msg = wms_msg.getmap(   layers=[name_msg],
+try:
+  img_msg = wms_msg.getmap(   layers=[name_msg],
                             styles=['raster'],
                             bbox=estensione,
                             size=size_map,
@@ -29,12 +29,14 @@ img_msg = wms_msg.getmap(   layers=[name_msg],
                             format=formato,
                             transparent=True
                           )
+except:
+  print("Import dell'immagine satellite visibile non riuscito")
 
 ############   IMPORT MSG (coastlines)
 layer = wms_msg.contents[name_msg] #per lista dei WMS disponibili
 name_cl='overlay:ne_10m_coastline'
-
-img_cl = wms_msg.getmap(   layers=[name_cl],
+try:
+  img_cl = wms_msg.getmap(   layers=[name_cl],
                             bbox=estensione,
                             size=size_map,
                             srs=proiezione,
@@ -42,12 +44,14 @@ img_cl = wms_msg.getmap(   layers=[name_cl],
                             format=formato,
                             transparent=True
                           )
+except:
+  print("Import dell'immagine coastlines non riuscito")
 
 ###########  IMPORT ECMWF (isolinee del geopotenziole a 500hPa)
 wms_ecmwf = WebMapService('https://apps.ecmwf.int/wms/?token=MetOceanIE&')
 name_ecmwf='z500_public'
-  
-img_ecmwf = wms_ecmwf.getmap(  layers=[name_ecmwf],
+try:  
+  img_ecmwf = wms_ecmwf.getmap(  layers=[name_ecmwf],
                                styles=['ct_red_i5_t2'],
                                bbox=estensione,
                                size=size_map,
@@ -56,6 +60,8 @@ img_ecmwf = wms_ecmwf.getmap(  layers=[name_ecmwf],
                                format=formato,
                                transparent=True
                               )
+except:
+  print("Import dell'immagine ECMWF non riuscito")
 
 #
 image_msg = io.BytesIO(img_msg.read())
