@@ -17,6 +17,7 @@
 
 export https_proxy="http://proxy2:8080"
 export http_proxy="http://proxy2:8080"
+export NO_PROXY="10.10.99.135"
 
 #numsec=86400   # 60 * 60 * 24 -> 1 gg
 numsec=10800  # 3 ore
