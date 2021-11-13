@@ -19,7 +19,7 @@ MYSQL_USER_ID  = os.getenv('MYSQL_USER_ID')
 MYSQL_USER_PWD = os.getenv('MYSQL_USER_PWD')
 MYSQL_DB_NAME  = os.getenv('MYSQL_DB_NAME')
 MYSQL_DB_HOST  = os.getenv('MYSQL_DB_HOST')
-
+MYSQL_DB_PORT  = os.getenv('MYSQL_DB_PORT')
 
     # definisco periodo
 def tabella():
@@ -46,7 +46,8 @@ def tabella():
         file_out.write('    "Tmin_clima":' + str(minima) + ',\n')
 
         #recupero da DBmeteo i dati di temperatura di ieri
-        engine = create_engine('mysql+mysqldb://'+MYSQL_USER_ID+':'+MYSQL_USER_PWD+'@'+MYSQL_DB_HOST+'/'+MYSQL_DB_NAME)  
+        #engine = create_engine('mysql+mysqldb://'+MYSQL_USER_ID+':'+MYSQL_USER_PWD+'@'+MYSQL_DB_HOST+'/'+MYSQL_DB_NAME)  
+        engine = create_engine('mysql+mysqldb://'+MYSQL_USER_ID+':'+MYSQL_USER_PWD+'@'+MYSQL_DB_HOST+':'+MYSQL_DB_PORT+'/'+MYSQL_DB_NAME)
         conn=engine.connect()
         query="select  min(Misura) as Tmin, max(Misura) as Tmax from M_Termometri where IDsensore=" + str(siti[i][1]) + " and Data_e_ora>='"  + DATAI + "' and Data_e_ora<='" + DATAF + "'"
         result=pd.read_sql(query, conn)
