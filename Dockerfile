@@ -5,6 +5,6 @@ ARG secret
 ENV https_proxy=https://${secret}@proxy2.arpa.local:8080/
 ENV http_proxy=http://${secret}@proxy2.arpa.local:8080/
 RUN apt-get update
-RUN apt-get install -y s3cmd
+RUN apt-get install -y smbclient
 RUN apt-get install -y vim
 CMD ["./meteogiorno.sh"]
