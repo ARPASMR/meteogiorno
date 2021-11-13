@@ -26,7 +26,7 @@ export IRIS_DB_HOST=10.10.0.19
 export MYSQL_USER_ID=guardone
 export MYSQL_USER_PWD=guardone
 export MYSQL_DB_NAME=METEO
-export MYSQL_DB_HOST=10.10.0.6
+export MYSQL_DB_HOST=10.10.0.25
 export MYSQL_DB_PORT=3308
 
 nas_usr='ARPA\svcMeteo%woT$ln5=lProp1&w'
