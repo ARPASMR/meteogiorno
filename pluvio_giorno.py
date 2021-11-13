@@ -33,6 +33,7 @@ MYSQL_USER_ID=os.getenv('MYSQL_USER_ID')
 MYSQL_USER_PWD=os.getenv('MYSQL_USER_PWD')
 MYSQL_DB_NAME=os.getenv('MYSQL_DB_NAME')
 MYSQL_DB_HOST=os.getenv('MYSQL_DB_HOST')
+MYSQL_DB_PORT=os.getenv('MYSQL_DB_PORT')
 
 def make_cmap(colors, position=None, bit=False):
     bit_rgb = np.linspace(0,1,256)
@@ -84,7 +85,8 @@ def pluvio_graf():
     
       
     #recupero dati da pluviometro
-    engine = create_engine('mysql+mysqldb://'+MYSQL_USER_ID+':'+MYSQL_USER_PWD+'@'+MYSQL_DB_HOST+'/'+MYSQL_DB_NAME)  
+    #engine = create_engine('mysql+mysqldb://'+MYSQL_USER_ID+':'+MYSQL_USER_PWD+'@'+MYSQL_DB_HOST+'/'+MYSQL_DB_NAME)  
+    engine = create_engine('mysql+mysqldb://'+MYSQL_USER_ID+':'+MYSQL_USER_PWD+'@'+MYSQL_DB_HOST+':'+MYSQL_DB_PORT+'/'+MYSQL_DB_NAME)
     conn=engine.connect()
     query="select  A_Sensori.IDsensore,  X(A_Sensori.CoordUTM ) as UTM_X, Y(A_Sensori.CoordUTM ) as UTM_Y,  date(Data_e_ora) as Data, sum(Misura) as Cumulata   from  A_Sensori ,  A_Stazioni ,  M_Pluviometri   where A_Sensori.IDstazione =A_Stazioni.IDstazione  and A_Sensori.IDsensore=M_Pluviometri.IDsensore and M_Pluviometri.Data_e_ora>='" + ieri + "' and M_Pluviometri.Data_e_ora<='"+ oggi+"' and (Flag_manuale='G' or Flag_manuale_DBunico in (-100,-101,-102) or (Flag_manuale='M' and Flag_automatica='P')) and A_Sensori.IDsensore not in (SELECT IDsensore from A_ListaNera where DataFine IS NULL) and A_Sensori.IDsensore in (select IDsensore from A_Sensori2Destinazione where Destinazione=12 and DataFine is null)  group by A_Sensori.IDsensore"
     result=pd.read_sql(query, conn)
