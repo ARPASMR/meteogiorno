@@ -16,24 +16,6 @@
 # 2021/10/14 sostituita copia su nasprevisore a copia su minio
 #=============================================================================
 
-export https_proxy="http://proxy2:8080"
-export http_proxy="http://proxy2:8080"
-
-export IRIS_USER_ID=postgres
-export IRIS_USER_PWD=p0stgr3S
-export IRIS_DB_NAME=iris_base
-export IRIS_DB_HOST=10.10.0.19
-export MYSQL_USER_ID=guardone
-export MYSQL_USER_PWD=guardone
-export MYSQL_DB_NAME=METEO
-export MYSQL_DB_HOST=10.10.0.25
-export MYSQL_DB_PORT=3308
-
-nas_usr='ARPA\svcMeteo%woT$ln5=lProp1&w'
-NAS=//10.10.0.44/F
-putdir=PRECOMPILAZIONE/MeteoGIORNO
-fake=arpav-gagliard
-
 #numsec=86400   # 60 * 60 * 24 -> 1 gg
 numsec=10800  # 3 ore
 
