@@ -14,6 +14,7 @@
 # 2019/04/09 aggiunta produzione immagine sinottica
 # 2020/07/02 rimossa produzione immagine sinottica
 # 2021/10/14 sostituita copia su nasprevisore a copia su minio
+# 2025/07/25 aggiunte mappe pluvio mattina e pomeriggio 
 #=============================================================================
 
 #numsec=86400   # 60 * 60 * 24 -> 1 gg
@@ -59,6 +60,57 @@ then
    fi
    rm -f $FILE_PNG
 
+################### produzione mappe pluvio mattina
+ PLUVIO_GIORNO_PY='pluvio_giorno_mattina.py'
+ FILE_PNG='pluvio_giorno_'$ieri'_mattina.png'
+
+    python $PLUVIO_GIORNO_PY
+
+   # verifico se è andato a buon fine
+   STATO=$?
+   echo "STATO USCITA DA "$ $PLUVIO_GIORNO_PY" ====> "$STATO
+
+   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci
+   then
+       exit 1
+   else # caricamento su nasprevisore
+       smbclient -U $nas_usr $NAS -n $fake -c "prompt; cd ${putdir}; mput $FILE_PNG; quit"
+
+       # controllo sul caricamento su nasprevisore
+       if [ $? -ne 0 ]
+       then
+         echo "problema caricamento su nasPrevisore"
+         exit 1
+       fi
+   fi
+   rm -f $FILE_PNG
+
+################### produzione mappe pluvio pomeriggio
+ PLUVIO_GIORNO_PY='pluvio_giorno_pomeriggio.py'
+ FILE_PNG='pluvio_giorno_'$ieri'_pomeriggio.png'
+
+    python $PLUVIO_GIORNO_PY
+
+   # verifico se è andato a buon fine
+   STATO=$?
+   echo "STATO USCITA DA "$ $PLUVIO_GIORNO_PY" ====> "$STATO
+
+   if [ "$STATO" -eq 1 ] # se si sono verificate anomalie esci
+   then
+       exit 1
+   else # caricamento su nasprevisore
+       smbclient -U $nas_usr $NAS -n $fake -c "prompt; cd ${putdir}; mput $FILE_PNG; quit"
+
+       # controllo sul caricamento su nasprevisore
+       if [ $? -ne 0 ]
+       then
+         echo "problema caricamento su nasPrevisore"
+         exit 1
+       fi
+   fi
+   rm -f $FILE_PNG
+
+   
 ################### produzione tabella clima
  CLIMA_GIORNO_PY='Tclima_giorno.py'
  FILE_TABELLA='Tabella_Clima_'$ieri'.json'
